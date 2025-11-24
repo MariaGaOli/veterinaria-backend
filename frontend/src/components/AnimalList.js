@@ -10,8 +10,11 @@ export default function ListaAnimais() {
 
   useEffect(() => {
     ApiService.get("/animais")
-      .then((data) => setAnimais(data))
-      .catch((err) => console.error("Erro ao carregar animais:", err));
+    .then((data) => {
+      const lista = Array.isArray(data) ? data : data.result || data.animais || [];
+      setAnimais(lista);
+    })
+    .catch((err) => console.error("Erro ao carregar animais:", err));
   }, []);
 
   const remover = async (id) => {

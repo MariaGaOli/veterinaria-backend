@@ -8,15 +8,32 @@ export default function ConsultaList() {
   const [consultas, setConsultas] = useState([]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("consultas")) || [];
-    setConsultas(data);
+    fetch("http://localhost:3000/consultas")
+      .then(res => res.json())
+      .then(data => {
+        console.log("RESPOSTA DA API:", data);
+
+        // Se o backend responder { consultas: [...] }
+        if (Array.isArray(data)) {
+          setConsultas(data);
+        } else if (Array.isArray(data.consultas)) {
+          setConsultas(data.consultas);
+        } else {
+          setConsultas([]); // segurança caso venha algo inesperado
+        }
+      })
+      .catch(err => {
+        console.error("Erro ao carregar consultas", err);
+        setConsultas([]);
+      });
   }, []);
 
-  const excluir = (index) => {
-    const novaLista = [...consultas];
-    novaLista.splice(index, 1);
-    setConsultas(novaLista);
-    localStorage.setItem("consultas", JSON.stringify(novaLista));
+  const excluir = async (id) => {
+    if (!window.confirm("Deseja excluir esta consulta?")) return;
+
+    await fetch(`http://localhost:3000/consultas/${id}`, { method: "DELETE" });
+
+    setConsultas((prev) => prev.filter((c) => c.id !== id));
   };
 
   return (
@@ -42,15 +59,15 @@ export default function ConsultaList() {
             </tr>
           </thead>
           <tbody>
-            {consultas.map((c, index) => (
-              <tr key={index}>
-                <td>{c.data}</td>
-                <td>{c.hora}</td>
+            {consultas.map((c) => (
+              <tr key={c.id}>
+                <td>{new Date(c.data).toLocaleDateString("pt-BR")}</td>
+                <td>{c.hora?.slice(0, 5)}</td>
                 <td>{c.veterinario}</td>
                 <td>{c.animal}</td>
                 <td>
                   <button className="btn btn-danger btn-sm"
-                    onClick={() => excluir(index)}>
+                    onClick={() => excluir(c.id)}>
                     Excluir
                   </button>
                 </td>
@@ -59,10 +76,9 @@ export default function ConsultaList() {
           </tbody>
         </table>
       )}
-
-        <div className="container mt-4">
+      <div className="container mt-4">
         <BackHomeButton />
-        </div>
+      </div>
     </div>
   );
 }
