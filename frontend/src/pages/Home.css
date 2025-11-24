@@ -1,0 +1,50 @@
+.home-bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffdef2, #c8e7ff);
+  }
+  
+  /* Título */
+  .home-title {
+    font-size: 40px;
+    color: #444;
+    font-weight: bold;
+  }
+  
+  /* Subtítulo */
+  .home-subtitle {
+    color: #555;
+    font-size: 20px;
+  }
+  
+  /* Botões */
+  .home-btn {
+    background-color: #ffffffcc;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 8px #00000020;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .home-btn:hover {
+    transform: scale(1.05);
+    background-color: #ffffff;
+  }
+  
+  /* Imagens de animais */
+  .animals-area {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap; /* mantém responsivo em telas menores */
+  }
+  
+  .animals-area img {
+    width: 400px;           /* aumentei de 140px para 180px */
+    border-radius: 20px;    /* bordas arredondadas */
+    filter: drop-shadow(0 4px 6px #00000040);
+    transition: transform 0.2s;
+  }
+  
+  .animals-area img:hover {
+    transform: scale(1.1);
+  }

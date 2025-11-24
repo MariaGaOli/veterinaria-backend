@@ -1,0 +1,33 @@
+CREATE TABLE Animais (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    especie VARCHAR(50) NOT NULL,
+    idade INT NOT NULL
+);
+
+CREATE TABLE Consulta (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    data DATE NOT NULL,
+    hora TIME NOT NULL,
+    veterinario VARCHAR(100) NOT NULL,
+    
+    -- chave estrangeira
+    animal INT NOT NULL,
+    FOREIGN KEY (animal) REFERENCES Animais(id)
+);
+
+backend (porta 3001)
+frontend (porta 3000)
+
+
+router.get("/animais/:id", AnimalController.buscarPorId); // buscar por id
+router.post("/animais", AnimalController.criar);          // criar
+router.put("/animais/:id", AnimalController.atualizar);   // atualizar
+router.delete("/animais/:id", AnimalController.remover);  // excluir
+
+
+GET http://localhost:3000/api/animais          //Listar animais
+GET http://localhost:3000/api/animais/1        // Buscar animal por id
+POST http://localhost:3000/api/animais         //Criar novo animal
+PUT http://localhost:3000/api/animais/1        // Atualizar animal
+DELETE http://localhost:3000/api/animais/1      //Remover
