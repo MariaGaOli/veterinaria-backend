@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import AnimalRoutes from './routes/AnimalRoutes.js'
+import consultaRoutes from "./routes/ConsultaRoutes.js";
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -12,7 +13,9 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-app.use('/api', AnimalRoutes)
+app.use("/consultas", consultaRoutes);
+
+app.use("/animais", AnimalRoutes)
 
 app.get('/', (req, res)=>{
 

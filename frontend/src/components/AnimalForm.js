@@ -4,17 +4,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import BackHomeButton from "../components/BackHomeButton";
 import ApiService from "../services/ApiService";
 
-
 export default function CadastroAnimal() {
   const [nome, setNome] = useState("");
   const [especie, setEspecie] = useState("");
+  const [raca, setRaca] = useState("");
   const [idade, setIdade] = useState("");
   const [erro, setErro] = useState("");
 
   const navigate = useNavigate();
 
   const validar = () => {
-    if (!nome.trim() || !especie.trim() || !idade.trim())
+    if (!nome.trim() || !especie.trim() || !raca.trim() || !idade.trim())
       return "Preencha todos os campos.";
 
     if (!/^[A-Za-zÀ-ú\s]+$/.test(nome))
@@ -28,15 +28,15 @@ export default function CadastroAnimal() {
 
   const salvar = async (e) => {
     e.preventDefault();
-  
+
     const msg = validar();
     if (msg) {
       setErro(msg);
       return;
     }
-  
-    const novoAnimal = { nome, especie, idade };
-  
+
+    const novoAnimal = { nome, especie, idade, raca };
+
     try {
       await ApiService.post("/animais", novoAnimal);
       navigate("/animais");
@@ -70,6 +70,14 @@ export default function CadastroAnimal() {
           onChange={(e) => setEspecie(e.target.value)}
         />
 
+        <label className="form-label">Raça</label>
+        <input
+          type="text"
+          className="form-control mb-2"
+          value={raca}
+          onChange={(e) => setRaca(e.target.value)}
+        />
+
         <label className="form-label">Idade</label>
         <input
           type="number"
@@ -81,14 +89,9 @@ export default function CadastroAnimal() {
         <button className="btn btn-success">Salvar</button>
       </form>
 
-        <div className="container mt-4">
-
+      <div className="container mt-4">
         <BackHomeButton />
-        </div>
-
+      </div>
     </div>
-
-    
   );
 }
-

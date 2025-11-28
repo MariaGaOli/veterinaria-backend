@@ -1,8 +1,8 @@
-const API_URL = 'http://localhost:3001/api';
+
+const API_URL = 'http://localhost:3000';
 
 class ApiService {
 
-    // Método auxiliar para tratar erros
   static async handleResponse(response) {
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: 'Erro desconhecido' }));
@@ -11,23 +11,17 @@ class ApiService {
     return response.json();
   }
 
-  static async get(endpoint){
-    try {
-        const response = await fetch(`${API_URL}${endpoint}`);
-            return await this.handleResponse(response)
-    } catch (error) {
-        console.error('Erro na requisição GET:',error)
-    }
-  }
 
+  static async get(endpoint) {
+    const response = await fetch(`${API_URL}${endpoint}`);
+    return await this.handleResponse(response);
+  }
 
   static async post(endpoint, data) {
     try {
       const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
       return await this.handleResponse(response);
@@ -41,9 +35,7 @@ class ApiService {
     try {
       const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
       return await this.handleResponse(response);
@@ -53,9 +45,7 @@ class ApiService {
     }
   }
 
-
-
-    static async delete(endpoint) {
+  static async delete(endpoint) {
     try {
       const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'DELETE',
@@ -66,6 +56,26 @@ class ApiService {
       throw error;
     }
   }
+
+  // GET 
+  static getConsultas(params = "") {
+    return this.get(`/consultas${params}`);
+  }
+
+  // POST
+  static postConsulta(data) {
+    return this.post(`/consultas`, data);
+  }
+
+  // PUT
+  static putConsulta(id, data) {
+    return this.put(`/consultas/${id}`, data);
+  }
+
+  // DELETE
+  static deleteConsulta(id) {
+    return this.delete(`/consultas/${id}`);
+  }
 }
 
-export default ApiService 
+export default ApiService;

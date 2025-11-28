@@ -5,7 +5,6 @@ import BackHomeButton from "../components/BackHomeButton";
 
 export default function ConsultaForm() {
   const navigate = useNavigate();
-
   const [form, setForm] = useState({
     data: "",
     hora: "",
@@ -17,15 +16,27 @@ export default function ConsultaForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const consultas = JSON.parse(localStorage.getItem("consultas")) || [];
-    consultas.push(form);
-    localStorage.setItem("consultas", JSON.stringify(consultas));
+    try {
+      const response = await fetch("http://localhost:3000/consultas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
+      });
 
-    alert("Consulta cadastrada com sucesso!");
-    navigate("/consultas");
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || "Erro desconhecido");
+      }
+
+      alert("Consulta cadastrada com sucesso!");
+      navigate("/consultas");
+    } catch (error) {
+      console.error("Erro ao cadastrar consulta:", error);
+      alert("Erro ao cadastrar consulta!");
+    }
   };
 
   return (
@@ -36,42 +47,34 @@ export default function ConsultaForm() {
 
           <div className="col-md-6 mb-3">
             <label className="form-label">Data</label>
-            <input type="date" className="form-control" name="data" required
-              value={form.data} onChange={handleChange} />
+            <input type="date" className="form-control" name="data" required value={form.data} onChange={handleChange} />
           </div>
 
           <div className="col-md-6 mb-3">
             <label className="form-label">Hora</label>
-            <input type="time" className="form-control" name="hora" required
-              value={form.hora} onChange={handleChange} />
+            <input type="time" className="form-control" name="hora" required value={form.hora} onChange={handleChange} />
           </div>
 
           <div className="col-md-6 mb-3">
             <label className="form-label">Veterinário Responsável</label>
-            <input type="text" className="form-control" name="veterinario" required
-              placeholder="Digite o nome"
-              value={form.veterinario} onChange={handleChange} />
+            <input type="text" className="form-control" name="veterinario" required placeholder="Digite o nome" value={form.veterinario} onChange={handleChange} />
           </div>
 
           <div className="col-md-6 mb-3">
             <label className="form-label">Animal</label>
-            <input type="text" className="form-control" name="animal" required
-              placeholder="Nome do animal"
-              value={form.animal} onChange={handleChange} />
+            <input type="text" className="form-control" name="animal" required placeholder="Nome do animal" value={form.animal} onChange={handleChange} />
           </div>
-
         </div>
 
         <button type="submit" className="btn btn-success">Salvar</button>
-        <button type="button" className="btn btn-secondary ms-2"
-          onClick={() => navigate("/consultas")}>
+        <button type="button" className="btn btn-secondary ms-2" onClick={() => navigate("/consultas")}>
           Cancelar
         </button>
       </form>
 
       <div className="container mt-4">
         <BackHomeButton />
-        </div>
+      </div>
     </div>
   );
 }
