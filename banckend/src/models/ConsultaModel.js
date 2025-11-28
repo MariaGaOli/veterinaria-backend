@@ -17,6 +17,38 @@ class ConsultaModel {
   static async remover(id) {
     await pool.query("DELETE FROM consultas WHERE id = ?", [id]);
   }
+
+  static async atualizar(id, { data, hora, veterinario, animal }) {
+    const [result] = await pool.query(
+      "UPDATE consultas SET data=?, hora=?, veterinario=?, animal=? WHERE id=?",
+      [data, hora, veterinario, animal, id]
+    );
+    return result.affectedRows;
+  }
+
+  static async buscarPorVeterinario(vet) {
+    const [rows] = await pool.query(
+      "SELECT * FROM consultas WHERE veterinario LIKE ? ORDER BY id DESC",
+      [`%${vet}%`]
+    );
+    return rows;
+  }
+
+  static async buscarPorAnimal(animal) {
+    const [rows] = await pool.query(
+      "SELECT * FROM consultas WHERE animal LIKE ? ORDER BY id DESC",
+      [`%${animal}%`]
+    );
+    return rows;
+  }
+
+  static async buscarPorData(data) {
+    const [rows] = await pool.query(
+      "SELECT * FROM consultas WHERE data = ? ORDER BY id DESC",
+      [data]
+    );
+    return rows;
+  }
 }
 
 export default ConsultaModel;

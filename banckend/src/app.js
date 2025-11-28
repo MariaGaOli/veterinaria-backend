@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.use("/consultas", consultaRoutes);
 
-app.use('/api', AnimalRoutes)
+app.use("/animais", AnimalRoutes)
 
 app.get('/', (req, res)=>{
 

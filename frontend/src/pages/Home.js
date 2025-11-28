@@ -29,7 +29,7 @@ export default function Home() {
           </div>
 
           <div className="col-md-4">
-            <Link to="/consultas/new" className="home-btn btn w-100 p-4 fs-5">
+            <Link to="/consultas/cadastrar" className="home-btn btn w-100 p-4 fs-5">
               🩺 Cadastrar Consultas
             </Link>
           </div>
