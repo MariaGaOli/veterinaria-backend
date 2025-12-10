@@ -1,0 +1,70 @@
+/* SIDEBAR FIXA ABAIXO DA HEADER */
+.sidebar {
+  width: 240px;
+  height: calc(100vh - 85px); /* altura total menos a header */
+  background: #f3e6ff;
+  padding: 20px 10px;
+  transition: width 0.3s ease-in-out;
+
+  position: fixed;
+  top: 85px; /* COMEÇA DEPOIS DA HEADER */
+  left: 0;
+
+  border-right: 2px solid #e0c9ff;
+  z-index: 1000; /* abaixo da header */
+}
+
+/* SIDEBAR FECHADA */
+.sidebar.closed {
+  width: 70px;
+}
+
+/* BOTÃO RETRÁTIL */
+.toggle-btn {
+  position: absolute;
+  top: 20px; /* ajustado por causa do novo top da sidebar */
+  right: -18px;
+  background: #d7b3ff;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar.closed .label {
+  display: none;
+}
+
+/* LISTA */
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 50px;
+}
+
+.sidebar-nav ul li {
+  margin: 20px 0;
+}
+
+.sidebar-nav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+  color: #7b4fa3;
+  font-size: 18px;
+  padding: 10px 15px;
+  transition: 0.2s ease;
+}
+
+.sidebar-nav ul li a:hover {
+  background: #ead8ff;
+  border-radius: 6px;
+}
